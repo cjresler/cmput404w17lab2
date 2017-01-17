@@ -1,4 +1,5 @@
 import socket
+import os
 
 serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 serverSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -12,6 +13,8 @@ while True:
     (incomingSocket, address) = serverSocket.accept();
     #Pause and wait for someone to connect, then create another socket
     print "We got a connection from %s" %(str(address))
+    if os.fork() != 0:
+        continue
 
     clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # socket.AF_INET indicates that we want an IPv4 socket
